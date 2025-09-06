@@ -107,8 +107,8 @@ if submit_btn:
 	
 	# Ensure all classifier columns exist and are numeric
 	for col in clf_features:
-	    if col not in input_df.columns:
-	        input_df[col] = 0  # fill missing columns with 0
+		if col not in input_df.columns:
+			input_df[col] = 0  # fill missing columns with 0
 	input_df_class = input_df[clf_features].copy()
 	input_df_class = input_df_class.astype(float)  # make sure all columns are numeric
 
@@ -143,6 +143,7 @@ with st.container():
 		- D: 60-69
 		- F: 0-59
 		""")
+
 
 
 
