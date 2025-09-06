@@ -117,28 +117,29 @@ if submit_btn:
 # -----------------------------
 #   	Display Prediction
 # -----------------------------
-with st.container():
-	st.subheader("📊 Prediction Result")
-	if prediction_type == "Pass/Fail Outcome":
-		predicted_class = clf_model.predict(input_df_class.values)[0]
-		proba = clf_model.predict_proba(input_df_class.values)[0]
-		predicted_label = "Pass" if predicted_class == 1 else "Fail"
-	
-		st.success(f"**Predicted Student Outcome:** {predicted_label}")
-		st.info(f"Probability to Pass: {proba[1]*100:.2f}%")
-		st.warning(f"Probability to Fail: {proba[0]*100:.2f}%")
-	
-	else:
-		predicted_score = reg_model.predict(input_scaled)[0]
-		student_grade = grade(predicted_score)
-	
-		st.success(f"**Predicted Final Exam Score:** {predicted_score:.2f}")
-		st.info(f"**Predicted Grade:** {student_grade}")
-		st.markdown("""
-		**Grade Ranges:**
-		- A: 90-100
-		- B: 80-89
-		- C: 70-79
-		- D: 60-69
-		- F: 0-59
-		""")
+#with st.container():
+st.subheader("📊 Prediction Result")
+if prediction_type == "Pass/Fail Outcome":
+	predicted_class = clf_model.predict(input_df_class.values)[0]
+	proba = clf_model.predict_proba(input_df_class.values)[0]
+	predicted_label = "Pass" if predicted_class == 1 else "Fail"
+
+	st.success(f"**Predicted Student Outcome:** {predicted_label}")
+	st.info(f"Probability to Pass: {proba[1]*100:.2f}%")
+	st.warning(f"Probability to Fail: {proba[0]*100:.2f}%")
+
+else:
+	predicted_score = reg_model.predict(input_scaled)[0]
+	student_grade = grade(predicted_score)
+
+	st.success(f"**Predicted Final Exam Score:** {predicted_score:.2f}")
+	st.info(f"**Predicted Grade:** {student_grade}")
+	st.markdown("""
+	**Grade Ranges:**
+	- A: 90-100
+	- B: 80-89
+	- C: 70-79
+	- D: 60-69
+	- F: 0-59
+	""")
+
