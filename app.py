@@ -14,7 +14,7 @@ clf_model, clf_features = clf_loaded[0], clf_loaded[1]
 
 parental_cols = [col for col in reg_features if col.startswith('Parental_Education_Level_')]
 
-scaler_reg = load('models/scaler_reg.joblib')
+scaler_reg = load('scaler_reg.joblib')
 
 
 # ----------------------------- 
@@ -140,6 +140,7 @@ with st.container():
 		- D: 60-69
 		- F: 0-59
 		""")
+
 
 
 
