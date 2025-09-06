@@ -104,9 +104,9 @@ if submit_btn:
     input_df = pd.DataFrame([input_dict], columns=reg_features)
 	
 	# For Classification: Ensure all columns exist
-	for col in clf_features:
-		if col not in input_df.columns:
-			input_df[col] = 0  # fill missing columns with 0
+	#for col in clf_features:
+	#	if col not in input_df.columns:
+	#		input_df[col] = 0  # fill missing columns with 0
 		
     # Reorder and convert classifier input
     input_df_class = input_df[clf_features].astype(float)
@@ -143,3 +143,4 @@ with st.container():
 		- D: 60-69
 		- F: 0-59
 		""")
+
