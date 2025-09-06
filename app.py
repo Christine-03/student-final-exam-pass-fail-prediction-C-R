@@ -12,10 +12,8 @@ reg_model, reg_features = reg_loaded[0], reg_loaded[1]
 clf_loaded = load('rf_classifier.joblib') 
 clf_model, clf_features = clf_loaded[0], clf_loaded[1] 
 
-parental_cols = [col for col in reg_features if col.startswith('Parental_Education_Level_')]
-
 scaler_reg = load('scaler_reg.joblib')
-
+parental_cols = [col for col in reg_features if col.startswith('Parental_Education_Level_')]
 
 # ----------------------------- 
 #         Helper function 
@@ -54,7 +52,7 @@ prediction_type_sidebar = st.sidebar.radio(
 with st.form(key='student_form'): 
 	st.subheader("📝 Student Details") 
 
-	# Optional main page Prediction Type 
+	# Main page Prediction Type
 	prediction_type = st.radio( 
 		"Select Prediction Type", 
 		("Pass/Fail Outcome", "Final Exam Score"), 
@@ -77,7 +75,7 @@ with st.form(key='student_form'):
 		[c.replace("Parental_Education_Level_", "") for c in parental_cols] 
 	) 
 
-	# Horizontal Predict button 
+	# Predict button
 	submit_btn = st.form_submit_button(label="Predict", use_container_width=True) 
 
 # ----------------------------- 
@@ -105,18 +103,19 @@ if submit_btn:
     # Convert to DataFrame
     input_df = pd.DataFrame([input_dict], columns=reg_features)
 	
-# Ensure all classifier columns exist and are numeric
-for col in clf_features:
-	if col not in input_df.columns:
-		input_df[col] = 0  # fill missing columns with 0
-input_df_class = input_df[clf_features].copy()
-input_df_class = input_df_class.astype(float)  # make sure all columns are numeric
+    # For Classification: Ensure all columns exist
+	for col in clf_features:
+		if col not in input_df.columns:
+			input_df[col] = 0  # fill missing columns with 0
+			
+	# For Regression: scale features
+	input_df_class = input_df_class.astype(float)  # make sure all columns are numeric
 
     # Reorder columns to match classifier
     #input_df_class = input_df[clf_features]
 
 # -----------------------------
-#   	Display prediction
+#   	Display Prediction
 # -----------------------------
 with st.container():
 	st.subheader("📊 Prediction Result")
@@ -128,8 +127,9 @@ with st.container():
 		st.success(f"**Predicted Student Outcome:** {predicted_label}")
 		st.info(f"Probability to Pass: {proba[1]*100:.2f}%")
 		st.warning(f"Probability to Fail: {proba[0]*100:.2f}%")
+		
 	else:
-		input_scaled = scaler_reg.transform(input_df.values)
+		#input_scaled = scaler_reg.transform(input_df.values)
 		predicted_score = reg_model.predict(input_scaled)[0]
 		student_grade = grade(predicted_score)
 		
@@ -143,6 +143,7 @@ with st.container():
 		- D: 60-69
 		- F: 0-59
 		""")
+
 
 
 
