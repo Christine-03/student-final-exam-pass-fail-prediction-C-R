@@ -103,16 +103,16 @@ if submit_btn:
     # Convert to DataFrame
     input_df = pd.DataFrame([input_dict], columns=reg_features)
 	
-# For Classification: Ensure all columns exist
-for col in clf_features:
-	if col not in input_df.columns:
-		input_df[col] = 0  # fill missing columns with 0
+	# For Classification: Ensure all columns exist
+	for col in clf_features:
+		if col not in input_df.columns:
+			input_df[col] = 0  # fill missing columns with 0
 		
-# For Regression: scale features
-input_df_class = input_df_class.astype(float)  # make sure all columns are numeric
+    # Reorder and convert classifier input
+    input_df_class = input_df[clf_features].astype(float)
 
-    # Reorder columns to match classifier
-    #input_df_class = input_df[clf_features]
+    # For Regression: scale features
+    input_scaled = scaler_reg.transform(input_df.values)
 
 # -----------------------------
 #   	Display Prediction
@@ -143,11 +143,3 @@ with st.container():
 		- D: 60-69
 		- F: 0-59
 		""")
-
-
-
-
-
-
-
-
