@@ -105,13 +105,14 @@ if submit_btn:
     # Convert to DataFrame
     input_df = pd.DataFrame([input_dict], columns=reg_features)
 	
-    # Fix missing columns for classifier
+    # Ensure all classifier columns exist and are numeric
     for col in clf_features:
         if col not in input_df.columns:
             input_df[col] = 0
+    input_df_class = input_df[clf_features].astype(float)
 
     # Reorder columns to match classifier
-    input_df_class = input_df[clf_features]
+    #input_df_class = input_df[clf_features]
 
 # -----------------------------
 #   	Display prediction
@@ -123,12 +124,13 @@ with st.container():
 		proba = clf_model.predict_proba(input_df_class.values)[0]
 		predicted_label = "Pass" if predicted_class == 1 else "Fail"
 		
-		st.success(f"**Predicted Student Outcome:** {predicted_label}")
-		st.info(f"Probability to Pass: {proba[1]*100:.2f}%")
-		st.warning(f"Probability to Fail: {proba[0]*100:.2f}%")
+        st.success(f"**Predicted Student Outcome:** {predicted_label}")
+        st.info(f"Probability to Pass: {proba[1]*100:.2f}%")
+        st.warning(f"Probability to Fail: {proba[0]*100:.2f}%")
 	else:
-		predicted_score = reg_model.predict(input_df.values)[0]
-		student_grade = grade(predicted_score)
+        input_scaled = scaler_reg.transform(input_df.values)
+        predicted_score = reg_model.predict(input_scaled)[0]
+        student_grade = grade(predicted_score)
 
 		st.success(f"**Predicted Final Exam Score:** {predicted_score:.2f}")
 		st.info(f"**Predicted Grade:** {student_grade}")
@@ -140,23 +142,4 @@ with st.container():
 		- D: 60-69
 		- F: 0-59
 		""")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
