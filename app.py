@@ -12,7 +12,10 @@ reg_model, reg_features = reg_loaded[0], reg_loaded[1]
 clf_loaded = load('rf_classifier.joblib') 
 clf_model, clf_features = clf_loaded[0], clf_loaded[1] 
 
-parental_cols = [col for col in reg_features if col.startswith('Parental_Education_Level_')] 
+parental_cols = [col for col in reg_features if col.startswith('Parental_Education_Level_')]
+
+scaler_reg = load('models/scaler_reg.joblib')
+
 
 # ----------------------------- 
 #         Helper function 
@@ -38,7 +41,7 @@ st.title("🎓 Student Performance Predictor")
 st.markdown("Predict **Final Exam Score** or **Pass/Fail Outcome** with AI models.") 
 
 # ----------------------------- 
-#     Sidebar: Prediction Type
+#     	Prediction Type
 # ----------------------------- 
 prediction_type_sidebar = st.sidebar.radio(
 	"Select Prediction Type", 
@@ -137,6 +140,7 @@ with st.container():
 		- D: 60-69
 		- F: 0-59
 		""")
+
 
 
 
