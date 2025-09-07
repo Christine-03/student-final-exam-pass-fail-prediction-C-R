@@ -122,21 +122,10 @@ if submit_btn:
         predicted_class = clf_model.predict(input_df_class.values)[0]
         proba = clf_model.predict_proba(input_df_class.values)[0]
         predicted_label = "Pass" if predicted_class == 1 else "Fail"
-        
-        if predicted_label == "Pass":
-            st.markdown(
-                f"<h3 style='color:green;'>✅ Predicted Student Outcome: {predicted_label}</h3>",
-                unsafe_allow_html=True
-            )
-        else:
-            st.markdown(
-                f"<h3 style='color:red;'>❌ Predicted Student Outcome: {predicted_label}</h3>",
-                unsafe_allow_html=True
-            )
-            
+
+        st.success(f"**Predicted Student Outcome:** {predicted_label}")
         st.info(f"Probability to Pass: {proba[1]*100:.2f}%")
         st.warning(f"Probability to Fail: {proba[0]*100:.2f}%")
-        
     else:
         predicted_score = reg_model.predict(input_scaled)[0]
         student_grade = grade(predicted_score)
@@ -151,4 +140,5 @@ if submit_btn:
         - D: 60-69
         - F: 0-59
         """)
+
 
